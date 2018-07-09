@@ -13,9 +13,11 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "1.18.3",
+    "chart.js": "^2.7.2",
     "express": "4.16.3",
     "jszip": "3.1.5",
-    "mime-types": "2.1.18"
+    "mime-types": "2.1.18",
+    "randomcolor": "^0.5.3"
   },
   "devDependencies": {
     "concurrently": "3.6.0",
