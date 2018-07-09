@@ -14,14 +14,16 @@
 
 <body>
   <h1>Please provide the path of your folder</h1>
-  <form action="/"
-    method="POST">
+  <form id="path-form">
     <input id="filePath"
       type="text"
       name="filePath"
       required>
     <button>Submit path</button>
+
   </form>
+
+  <canvas id="word-count" width="1200"></canvas>
 
   <script src="./app.js"></script>
 </body>
