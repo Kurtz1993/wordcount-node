@@ -26,10 +26,10 @@ exports.readZippedFiles = async (req, res, next) => {
   next();
 };
 
-async function readZippedFile(file) {
+async function readZippedFile(zipFile) {
   let result = [];
   try {
-    const zipFile = await readFile(file);
+    const zipFile = await readFile(zipFile);
 
     const zip = await JSZip.loadAsync(zipFile);
     let files = Object.values(zip.files).filter(file => !file.dir);
@@ -39,7 +39,7 @@ async function readZippedFile(file) {
       if (mime.lookup(file.name) !== TxtFile) continue;
 
       const content = await zip.file(file.name).async("text");
-      result.push({ fileName: file.name, content });
+      result.push({ fileName: `${zipFile}/file.name`, content });
     }
   } catch (e) {
     console.log(e);
