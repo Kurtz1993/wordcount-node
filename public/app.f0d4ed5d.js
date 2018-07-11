@@ -19458,7 +19458,7 @@ window.chart = null;
 document.getElementById("path-form").addEventListener("submit", function (e) {
   e.preventDefault();
   var filePath = document.getElementById("filePath").value;
-  fetch("/test", {
+  fetch("/", {
     method: "POST",
     headers: {
       "content-type": "application/json"
@@ -19466,29 +19466,31 @@ document.getElementById("path-form").addEventListener("submit", function (e) {
     body: JSON.stringify({
       filePath: filePath
     })
-  }).then(function (data) {
-    return data.json();
-  }).then(function (data) {
-    if (chart) {
-      return;
-    }
-
-    var colours = data.map(function () {
+  }).then(function (response) {
+    return response.json();
+  }).then(function (response) {
+    var colours = Object.keys(response.wordCount).map(function () {
       return (0, _randomcolor2.default)();
     });
+    var labels = Object.keys(response.wordCount);
+    var data = Object.values(response.wordCount);
+
+    if (window.chart) {
+      window.chart.data.labels = labels;
+      window.chart.data.datasets[0].data = data;
+      window.chart.update();
+
+      return;
+    }
 
     window.chart = new Chart(ctx, {
       type: "bar",
       data: {
-        labels: data.map(function (record) {
-          return record.name;
-        }),
+        labels: labels,
         datasets: [{
           label: "# of Words",
           backgroundColor: colours,
-          data: data.map(function (record) {
-            return record.wordCount;
-          })
+          data: data
         }]
       },
       options: {

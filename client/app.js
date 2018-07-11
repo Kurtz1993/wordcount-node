@@ -8,7 +8,7 @@ window.chart = null;
 document.getElementById("path-form").addEventListener("submit", e => {
   e.preventDefault();
   const filePath = document.getElementById("filePath").value;
-  fetch("/test", {
+  fetch("/", {
     method: "POST",
     headers: {
       "content-type": "application/json",
@@ -17,23 +17,29 @@ document.getElementById("path-form").addEventListener("submit", e => {
       filePath,
     }),
   })
-    .then(data => data.json())
-    .then(data => {
-      if (chart) {
+    .then(response => response.json())
+    .then(response => {
+      const colours = Object.keys(response.wordCount).map(() => randomColor());
+      const labels = Object.keys(response.wordCount);
+      const data = Object.values(response.wordCount);
+
+      if (window.chart) {
+        window.chart.data.labels = labels;
+        window.chart.data.datasets[0].data = data;
+        window.chart.update();
+
         return;
       }
-
-      const colours = data.map(() => randomColor());
 
       window.chart = new Chart(ctx, {
         type: "bar",
         data: {
-          labels: data.map(record => record.name),
+          labels,
           datasets: [
             {
               label: "# of Words",
               backgroundColor: colours,
-              data: data.map(record => record.wordCount),
+              data,
             },
           ],
         },
