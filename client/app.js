@@ -8,7 +8,7 @@ window.chart = null;
 document.getElementById("path-form").addEventListener("submit", e => {
   e.preventDefault();
   const filePath = document.getElementById("filePath").value;
-  fetch("/", {
+  fetch("/test", {
     method: "POST",
     headers: {
       "content-type": "application/json",

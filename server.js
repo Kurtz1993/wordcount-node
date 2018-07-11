@@ -6,13 +6,18 @@ const app = express();
 const { readFiles } = require("./read-files");
 const { readZippedFiles } = require("./read-zipped-files");
 
+const {
+  getFilesFromFolder,
+  getFilesFromZip,
+  countWords,
+} = require("./middleware");
+
 app.use(express.static(path.join(__dirname, "public")));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.post("/", readFiles, readZippedFiles, (req, res) => {
-  return res.send(req.files);
-});
+app.post("/", getFilesFromFolder, getFilesFromZip, countWords);
+
 app.get("/", (req, res) =>
   res.sendFile(path.join(__dirname, "public", "index.html"))
 );
