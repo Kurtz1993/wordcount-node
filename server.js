@@ -3,8 +3,6 @@ const path = require("path");
 const bodyParser = require("body-parser");
 
 const app = express();
-const { readFiles } = require("./read-files");
-const { readZippedFiles } = require("./read-zipped-files");
 
 const {
   getFilesFromFolder,
