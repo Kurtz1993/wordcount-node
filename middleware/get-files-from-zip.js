@@ -6,7 +6,10 @@ exports.getFilesFromZip = async (req, res, next) => {
     .map(zip => getZippedFiles(zip.fullPath))
     .reduce((prev, next) => prev.concat(next), []);
 
-  const filesInZippedFolders = await Promise.all(zipFolderPromises);
+  const filesInZippedFolders = (await Promise.all(zipFolderPromises)).reduce(
+    (prev, next) => prev.concat(next),
+    []
+  );
   req.zipFiles = filesInZippedFolders;
 
   next();
